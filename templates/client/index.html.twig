@@ -1,0 +1,39 @@
+{% extends "base.html.twig" %}
+
+{% block title %}
+    {{parent() }} Clients
+{% endblock %}
+
+
+{% block body %}
+<section class="container">
+    <h1> Page liste de mes clients </h1>
+    {% if clients is empty %}
+        <p>Il n'y a pas de client</p>
+    {% else %}
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Company Name</th>
+            <th>Contact Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in clients %}
+        <tr>
+            <td>{{ client.companyName }}</td>
+            <td>{{ client.ContactName }}</td>
+            <td>{{ client.Email }}</td>
+            <td>{{ client.Phone }}</td>
+            <td><a href={{ path('client_show',{"id":client.id})}}>Voir</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+
+    {% endif %}
+    </table>
+</section>
+{% endblock %}

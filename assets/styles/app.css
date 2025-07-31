@@ -1,3 +1,7 @@
 body {
-    background-color: skyblue;
+    background-color: #d1e0d7;
+    color: #607ebc;
+}
+.center {
+    text-align: center;
 }
