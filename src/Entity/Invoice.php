@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Client;
 use App\Repository\InvoiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -113,6 +114,17 @@ class Invoice
                 $invoiceLine->setInvoice(null);
             }
         }
+
+        return $this;
+    }
+    public function getClient(): ?Client
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Client $client): static
+    {
+        $this->client = $client;
 
         return $this;
     }

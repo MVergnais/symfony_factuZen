@@ -104,7 +104,7 @@ class Client
     public function addInvoice(Invoice $invoice): static
     {
         if (!$this->invoices->contains($invoice)) {
-            $this->invoices->add($invoice);
+            $this->invoices->add($invoice); 
             $invoice->setClient($this);
         }
 

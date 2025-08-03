@@ -42,7 +42,7 @@ class ClientController extends AbstractController
             'clients' => $clients
         ]);
     }
-    /** Exercice 2 - Afficher les factures d'un client */
+    /** Ajout Nouveau Client */
     #[Route('/clients/new', name: 'client_new')]
     public function new(
         Request $request,

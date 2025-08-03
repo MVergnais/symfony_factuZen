@@ -2,15 +2,12 @@
 
 namespace App\DataFixtures;
 
-/** utilitaire pour récupérer les données*/
+/** utilitaire pour récupérer les données */
 
 use App\Entity\Client;
 use App\Entity\Invoice;
-use App\Repository\ClientRepository;
-use DateTime;
 use DateTimeImmutable;
 use Faker\Factory;
-
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -24,6 +21,11 @@ class InvoiceFixtures extends Fixture
         // comme si c'était clientRepository->findAll()
         $clients = $manager->getRepository(Client::class)->findAll();
 
+        // vérifie qu’il y a bien des clients, sinon on stoppe la fixture
+        if (empty($clients)) {
+            throw new \Exception("Aucun client trouvé. Veuillez exécuter ClientFixtures d’abord.");
+        }
+
         // on va créer des factures pour des clients aléatoires
         for ($i = 0; $i < 100; $i++) {
             $invoice = new Invoice();
@@ -33,7 +35,7 @@ class InvoiceFixtures extends Fixture
             // issuedAt est de classe DateTimeImmutable
             // faker génère un objet de format DateTime (mutable / modifiable)
             $invoice->setIssuedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween("-1 year", "now")));
-            // On prend un élement aléatoire dans la liste dans la liste fournie à faker
+            // On prend un élement aléatoire dans la liste fournie à faker
             $invoice->setStatus($faker->randomElement(['draft', 'sent', 'paid']));
             // Idem pour le client
             $invoice->setClient($faker->randomElement($clients));
