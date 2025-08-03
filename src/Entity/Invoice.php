@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\InvoiceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
@@ -19,12 +21,29 @@ class Invoice
     #[ORM\Column]
     private ?\DateTimeImmutable $issuedAt = null;
 
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 255)]
     private ?string $status = null;
+
+    # ManyToOne entre Invoice et Client : 
+    # une facture appartient à un seul client, mais un client peut avoir plusieurs factures
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Client $client = null;
+
+    /** Ajout de InvoiceLine
+     * @var Collection<int, InvoiceLine>
+     */
+    #[ORM\OneToMany(targetEntity: InvoiceLine::class, mappedBy: 'invoice', orphanRemoval: true)]
+    private Collection $invoiceLines;
+
+    public function __construct()
+    {
+        $this->invoiceLines = new ArrayCollection();
+    }
+    /*** Fin InvoiceLine */
+
+    /** fichier fait automatique dans la commande du terminal */
 
     public function getId(): ?int
     {
@@ -67,14 +86,33 @@ class Invoice
         return $this;
     }
 
-    public function getClient(): ?Client
+    /**Ajout de fonction pour InvoiceLine */
+    /**
+     * @return Collection<int, InvoiceLine>
+     */
+    public function getInvoiceLines(): Collection
     {
-        return $this->client;
+        return $this->invoiceLines;
     }
 
-    public function setClient(?Client $client): static
+    public function addInvoiceLine(InvoiceLine $invoiceLine): static
     {
-        $this->client = $client;
+        if (!$this->invoiceLines->contains($invoiceLine)) {
+            $this->invoiceLines->add($invoiceLine);
+            $invoiceLine->setInvoice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInvoiceLine(InvoiceLine $invoiceLine): static
+    {
+        if ($this->invoiceLines->removeElement($invoiceLine)) {
+            // set the owning side to null (unless already changed)
+            if ($invoiceLine->getInvoice() === $this) {
+                $invoiceLine->setInvoice(null);
+            }
+        }
 
         return $this;
     }

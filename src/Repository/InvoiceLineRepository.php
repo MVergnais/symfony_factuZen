@@ -2,22 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Invoice;
+use App\Entity\InvoiceLine;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Invoice>
+ * @extends ServiceEntityRepository<InvoiceLine>
  */
-class InvoiceRepository extends ServiceEntityRepository
+class InvoiceLineRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Invoice::class);
+        parent::__construct($registry, InvoiceLine::class);
     }
 
-    /**Ajout des function save et remove */
-    public function save(Invoice $entity, bool $flush = false): void
+    public function save(InvoiceLine $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -26,7 +25,7 @@ class InvoiceRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(Invoice $entity, bool $flush = false): void
+    public function remove(InvoiceLine $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -35,9 +34,8 @@ class InvoiceRepository extends ServiceEntityRepository
         }
     }
 
-
     //    /**
-    //     * @return Invoice[] Returns an array of Invoice objects
+    //     * @return InvoiceLine[] Returns an array of InvoiceLine objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -51,7 +49,7 @@ class InvoiceRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Invoice
+    //    public function findOneBySomeField($value): ?InvoiceLine
     //    {
     //        return $this->createQueryBuilder('i')
     //            ->andWhere('i.exampleField = :val')

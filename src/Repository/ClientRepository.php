@@ -26,9 +26,27 @@ class ClientRepository extends ServiceEntityRepository
             ->orderBy('c.companyName', 'ASC')
             ->getQuery()
             ->getResult();
+
+        // SELECT * FROM client c WHERE c.company_name LIKE "toto%" ORDER BY c.company_name ASC;
     }
 
+    public function save(Client $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
 
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function remove(Client $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
     /**
      * Exercice 3 – Recherche par nom d’entreprise

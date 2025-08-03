@@ -1,35 +1,28 @@
 {% extends "base.html.twig" %}
 
 {% block title %}
-    {{parent() }} Client
+	{{parent() }}
+	Client
+	{{client.companyName}}
 {% endblock %}
 
 
 {% block body %}
-<section class="container">
-    <h1> Page liste de mon client </h1>
-    {% if client is empty %}
-        <p>Il n'y a pas de client</p>
-    {% else %}
-    <table class="table">
-    <thead>
-        <tr>
-            <th>Company Name</th>
-            <th>Contact Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{{ client.companyName }}</td>
-            <td>{{ client.ContactName }}</td>
-            <td>{{ client.Email }}</td>
-            <td>{{ client.Phone }}</td>
-        </tr>
-    </tbody>
-
-    {% endif %}
-    </table>
-</section>
+	<section class="container">
+		<h1>
+			Page liste de mon client
+		</h1>
+		{% if client is empty %}
+			<p>Il n'y a pas de client</p>
+		{% else %}
+			<div class="card" style="width: 18rem;">
+				<div class="card-body">
+					<h5 class="card-title">{{client.companyName}}</h5>
+					<h6 class="card-title">{{client.contactName}}</h6>
+					<a href="tel:{{client.phone}}">{{client.phone}}</a>
+					<a href="mailto:{{client.email}}">{{client.email}}</a>
+				</div>
+		{% endif %}
+		    </div>
+	</section>
 {% endblock %}
